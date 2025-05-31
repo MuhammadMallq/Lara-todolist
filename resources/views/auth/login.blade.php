@@ -1,110 +1,109 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+{-- layouts/app.blade.php --}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | ToDo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            color: #111;
+        }
+        .card.auth-card {
+            background-color: #fff;
+            border-color: #333;
+        }
+        .btn-dark:hover {
+            background-color: #222 !important;
+            border-color: #000 !important;
+        }
+        .input-group-text, .form-control {
+            background-color: #fff !important;
+            border-color: #999 !important;
+            color: #111 !important;
+        }
+    </style>
+</head>
+<body>
+    {-- content --}
+    <div class="min-vh-100 d-flex align-items-center justify-content-center bg-white text-dark py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-6 col-lg-5">
-                    <div class="card auth-card shadow-sm">
-                        <div class="card-body p-4 p-md-5">
-                            <!-- Alert Message -->
+                    <div class="card border border-dark shadow-sm rounded-4 bg-light">
+                        <div class="card-body p-5">
                             @if(session('success'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
+                                    { session('success') }
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             @endif
 
                             <div class="text-center mb-4">
-                                <h2 class="todo fw-bold mb-4">To-Do-List</h2>
-                                <p class="text-muted">Masuk ke akun Anda</p>
+                                <i class="bi bi-list-check display-4 text-dark mb-2"></i>
+                                <h3 class="fw-bold text-dark">To-Do-List</h3>
+                                <p class="text-muted small">Silakan masuk ke akun Anda</p>
                             </div>
 
-
-                            <form method="POST" action="{{ route('login') }}">
-
+                            <form method="POST" action="{ route('login') }">
                                 @csrf
 
-                                <div class="mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0">
-                                            <i class="bi bi-person"></i>
-                                        </span>
-                                        <input type="text" name="login"
-                                            class="form-control border-start-0 @error('login') is-invalid @enderror"
-                                            placeholder="Email atau Username" value="{{ old('login') }}" required
-                                            autofocus>
-                                    </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="login" class="form-control bg-white border-dark text-dark @error('login') is-invalid @enderror"
+                                        id="loginInput" placeholder="Email atau Username" value="{ old('login') }" required autofocus>
+                                    <label for="loginInput"><i class="bi bi-person me-2"></i> Email atau Username</label>
                                     @error('login')
-                                        <div class="invalid-feedback d-block">
-                                            {{ $message }}
-                                        </div>
+                                        <div class="invalid-feedback d-block text-danger">{ $message }</div>
                                     @enderror
                                 </div>
 
-                                <div class="mb-4">
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0">
-                                            <i class="bi bi-key"></i>
-                                        </span>
-                                        <input type="password" name="password"
-                                            class="form-control border-start-0 @error('password') is-invalid @enderror"
-                                            placeholder="Password" required>
-                                    </div>
+                                <div class="form-floating mb-4">
+                                    <input type="password" name="password" class="form-control bg-white border-dark text-dark @error('password') is-invalid @enderror"
+                                        id="passwordInput" placeholder="Password" required>
+                                    <label for="passwordInput"><i class="bi bi-lock me-2"></i> Password</label>
                                     @error('password')
-                                        <div class="invalid-feedback d-block">
-                                            {{ $message }}
-                                        </div>
+                                        <div class="invalid-feedback d-block text-danger">{ $message }</div>
                                     @enderror
                                 </div>
 
-                                <button type="submit" class="btn btn-purple w-100 mb-3 position-relative overflow-hidden">
-                                    <span class="d-flex align-items-center justify-content-center">
-                                        Masuk
-                                        <i class="ms-2">➜</i>
-                                    </span>
+                                <button type="submit" class="btn w-100 py-2 btn-dark fw-semibold shadow-sm">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i> Masuk
                                 </button>
 
-                                <div class="text-center">
-
-                                    <a href="{{ route('register') }}" class="link-purple">
-                                        Belum Punya Akun? Daftar Sekarang
-                                    </a>
+                                <div class="text-center mt-3">
+                                    <small class="text-muted">Belum punya akun?</small><br>
+                                    <a href="{ route('register') }" class="text-decoration-none text-dark">Daftar Sekarang</a>
                                 </div>
 
-                                <div class="mt-4 pt-4 border-top">
-                                    <div class="row g-4">
-                                        <div class="col-6">
-                                            <div class="d-flex align-items-center">
-                                                <div class="feature-icon me-2"><i class="bi bi-check-circle"></i></div>
-                                                <span class="small text-muted">Task Management</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex align-items-center">
-                                                <div class="feature-icon me-2"><i class="bi bi-check-circle"></i></div>
-                                                <span class="small text-muted">Progress Tracking</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex align-items-center">
-                                                <div class="feature-icon me-2"><i class="bi bi-check-circle"></i></div>
-                                                <span class="small text-muted">Team Collaboration</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex align-items-center">
-                                                <div class="feature-icon me-2"><i class="bi bi-check-circle"></i></div>
-                                                <span class="small text-muted">Priority Settings</span>
-                                            </div>
-                                        </div>
+                                <hr class="my-4">
+
+                                <div class="text-center text-muted small mb-2">Fitur Aplikasi</div>
+                                <div class="row g-2 small text-muted">
+                                    <div class="col-6 d-flex align-items-center">
+                                        <i class="bi bi-check-circle me-2"></i> Task Management
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center">
+                                        <i class="bi bi-check-circle me-2"></i> Progress Tracking
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center">
+                                        <i class="bi bi-check-circle me-2"></i> Team Collaboration
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center">
+                                        <i class="bi bi-check-circle me-2"></i> Priority Settings
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+                    <p class="text-center text-muted small mt-4">© { date('Y') } ToDoApp. All rights reserved.</p>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
